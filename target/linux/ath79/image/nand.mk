@@ -1,3 +1,22 @@
+define Device/netgear_ath79_nand_128m
+  DEVICE_VENDOR := NETGEAR
+  DEVICE_PACKAGES := kmod-usb2 kmod-usb-ledtrig-usbport
+  KERNEL_SIZE := 4096k
+  BLOCKSIZE := 128k
+  PAGESIZE := 2048
+  IMAGE_SIZE := 121m		#修改处
+  KERNEL := kernel-bin | append-dtb | lzma -d20 | \
+	pad-offset $$(KERNEL_SIZE) 129 | uImage lzma | \
+	append-string -e '\xff' | \
+	append-uImage-fakehdr filesystem $$(UIMAGE_MAGIC)
+  KERNEL_INITRAMFS := kernel-bin | append-dtb | lzma -d20 | uImage lzma
+  IMAGES := sysupgrade.bin factory.img
+  IMAGE/factory.img := append-kernel | append-ubi | netgear-dni | \
+	check-size
+  IMAGE/sysupgrade.bin := sysupgrade-tar | append-metadata | \
+	check-size
+  UBINIZE_OPTS := -E 5
+endef
 define Build/dongwon-header
 	head -c 4 $@ > $@.tmp
 	head -c 8 /dev/zero >> $@.tmp
