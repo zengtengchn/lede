@@ -297,7 +297,7 @@ define Device/netgear_wndr4300
   UIMAGE_MAGIC := 0x33373033
   NETGEAR_BOARD_ID := WNDR4300
   NETGEAR_HW_ID := 29763948+0+128+128+2x2+3x3
-  $(Device/netgear_ath79_nand)
+  $(Device/netgear_ath79_nand_128m)
 endef
 TARGET_DEVICES += netgear_wndr4300
 
