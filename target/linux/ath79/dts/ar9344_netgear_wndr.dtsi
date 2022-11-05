@@ -81,21 +81,6 @@
 		};
 	};
 
-	ubi-concat {
-		compatible = "mtd-concat";
-		devices = <&ubiconcat0 &ubiconcat1>;
-
-		partitions {
-			compatible = "fixed-partitions";
-			#address-cells = <1>;
-			#size-cells = <1>;
-
-			ubi@ac0000 {
-				label = "ubi";
-				reg = <0x0 0x7500000>;
-			};
-		};
-	};
 };
 
 &pinmux {
@@ -154,22 +139,22 @@
 			reg = <0x6c0000 0x400000>;
 		};
 
-		ubiconcat0: partition@ac0000 {
-			label = "ubiconcat0";
-			reg = <0xac0000 0x1500000>;
+		partition@ac0000 {
+			label = "ubi";
+			reg = <0xac0000 0x7500000>;
 		};
 
 		partition@6c0000 {
 			label = "firmware";
-			reg = <0x6c0000 0x1900000>;
+			reg = <0x6c0000 0x7900000>;
 			compatible = "openwrt,uimage", "denx,uimage";
 			openwrt,ih-magic = <0x33373033>;
 			openwrt,ih-type = <IH_TYPE_FILESYSTEM>;
 		};
 
-		partition@1fc0000 {
+		partition@7fc0000 {
 			label = "caldata_backup";
-			reg = <0x1fc0000 0x40000>;
+			reg = <0x7fc0000 0x40000>;
 			read-only;
 		};
 
